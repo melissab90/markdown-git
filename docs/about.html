@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Sales by Category</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sales</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Forecast</a>
+</li>
+<li>
+  <a href="about.html">Category</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Sales by Category</h1>
+
+</div>
+
+
+<pre class="r"><code>trace_0 &lt;- rnorm(100, mean = 5)
+trace_1 &lt;- rnorm(100, mean = 0)
+trace_2 &lt;- rnorm(100, mean = -5)
+x &lt;- c(1:100)
+data &lt;- data.frame(x, trace_0, trace_1, trace_2)
+fig &lt;- plot_ly(data, x = ~x, y = ~trace_0, name = &#39;trace 0&#39;, type = &#39;scatter&#39;, mode = &#39;lines&#39;)
+fig &lt;- fig %&gt;% add_trace(y = ~trace_1, name = &#39;trace 1&#39;, mode = &#39;lines+markers&#39;)
+fig &lt;- fig %&gt;% add_trace(y = ~trace_2, name = &#39;trace 2&#39;, mode = &#39;markers&#39;)
+fig</code></pre>
+<div id="htmlwidget-ecc4cc82b9ecffb54900" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ecc4cc82b9ecffb54900">{"x":{"visdat":{"1770386a5b82":["function () ","plotlyVisDat"]},"cur_data":"1770386a5b82","attrs":{"1770386a5b82":{"x":{},"y":{},"mode":"lines","name":"trace 0","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"1770386a5b82.1":{"x":{},"y":{},"mode":"lines+markers","name":"trace 1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true},"1770386a5b82.2":{"x":{},"y":{},"mode":"markers","name":"trace 2","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"title":"trace_0"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],"y":[3.50710103332298,5.62010598880552,5.29195944564239,4.99782397995637,4.56491892973066,5.7260425406853,5.78379486317773,3.92729997722917,4.34224199100893,5.02390028320828,5.4089177627719,4.80547959702701,4.56281949348979,3.94102045697888,3.33341505863512,6.61052432143371,3.59296465337961,5.84692096513288,5.81268828685509,6.23706466305872,5.47348173344488,3.21179025944399,7.07836383322769,5.59626310357382,3.86568279657472,5.91207683351731,4.54465974664485,4.30818600243332,3.44366539465425,6.09306143993249,5.30175103674113,3.35191395902828,5.09542982146075,4.88003923398969,6.13041331147465,4.9759029552408,7.11936507616302,4.14721908730562,4.08503550750859,3.92243418137884,6.3335977401237,5.0250409952815,5.58905852594038,6.15959541583026,3.26100262982328,2.6817356029127,5.96298859277155,4.72079797845028,6.73821568874592,5.99786260383773,4.81954371551156,5.6839334983667,5.69958676061035,6.00353848133326,4.55882786349564,4.3022933420632,5.57621737343068,4.88206432276563,4.68074769187529,6.5434661569672,4.21714516558931,4.81469694712591,4.22895133841373,4.7474426856569,6.4934732038929,6.35207923329212,4.51739313253016,4.64222152390207,5.74895700299904,5.27483303866565,3.4753623451755,5.11490539346895,6.11586262831253,4.53312688869651,4.3205649567826,6.5037767818795,4.11094095600937,3.58363453450352,5.80875699993316,6.20340670854009,4.21625364386434,3.46054982403599,4.65136020198143,3.88201976337039,3.7111569227291,4.51324572078431,6.16094872183259,5.82324495643904,4.29704950150645,3.48749031163979,4.73239665861193,4.30178067247154,4.6808706463527,4.14715280194369,5.45086587435436,5.27470356361449,5.99281365907604,5.94359830642605,4.69575385026577,3.78231806813458],"mode":"lines","name":"trace 0","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],"y":[-0.425945772424746,1.58821717418488,-2.0805772462898,-1.2131554735897,0.03880658691495,0.599840232739882,-0.662584272892672,0.539108620197887,0.812350047164405,0.26848682157246,-0.0700044462741022,1.85147952520533,0.17307818956071,0.249624634487247,0.821441668418958,-0.418526988251201,-0.401077644385413,1.25815082758332,0.514416641105596,1.08138011962143,-1.75243745439211,-1.54581331696636,0.802964570009482,0.0244944577081489,-0.349128991504844,2.01513072160334,0.489894206109165,-0.64895383834418,-0.802588717616214,0.411357176538472,-0.0666795087593788,-0.790031450256696,0.279250058011629,-0.31394363754908,-2.79644840895808,0.175863872180086,-1.02468348676016,-0.780826917561011,0.0129123401682074,0.502697055742956,-0.266305459827361,-1.48160853262299,-0.0632584909007523,-1.39783187062994,0.862334432222708,0.591025086957336,0.364369410305994,1.4818636752637,-1.70968014251996,0.0393147068799358,-0.445962197949976,-0.269114962981417,-3.58116375496822,2.0839519122158,1.31645417903794,1.63289849389236,0.7936913587285,0.408506889362039,0.538980124977126,-0.178863618951649,0.379935858289848,-0.359856817177093,-1.10795475599111,-2.24957504437133,1.71357217525081,-1.37526660824642,-0.0196552070178154,2.3028873751083,-0.652600129608994,-0.955285443402557,0.126282121156891,1.40687698929201,0.398397927445391,-0.172773316541549,-0.957511292886764,1.77186239083648,-1.61231132681822,-0.725024809821562,0.271096506273221,0.742706517654571,-0.0462236063708229,-1.2439237860849,1.91755484945378,-1.97969804725045,-1.1207498287051,0.234085240242943,1.05142663270191,-0.792765967651432,-1.1747910026316,0.0937644700072857,1.25702190394994,-2.77961350927339,0.0703280770055111,-0.25723366898113,-0.589805597043113,-1.30773637557504,-0.126298569792514,0.660664015289007,-0.339477379201751,1.29074270391096],"mode":"lines+markers","name":"trace 1","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],"y":[-3.66335336108411,-5.61034742039347,-4.05971629049752,-6.21813965774894,-4.12925927898807,-4.1445664579392,-5.66797408799633,-5.67240230487609,-6.20725786900787,-5.98691845865907,-5.06634097567887,-4.77655264041376,-6.02276674415593,-6.58416843654985,-6.80906588655054,-5.65582124659302,-6.23667471704526,-4.53128165369577,-5.39364223778702,-3.92936387345576,-5.19757330083269,-5.00388016940663,-5.62851707953537,-3.6982207754882,-4.67482510710862,-5.89667097333878,-5.47298419370239,-4.15043996236831,-4.00924196067079,-5.89051933307088,-5.66036588509863,-3.47060379156957,-5.309212497017,-5.49768166695997,-5.95532611812483,-6.0162351271298,-6.13699342902338,-5.5224351800635,-4.37709843589785,-5.7710252321689,-3.26426215335933,-3.49196934882067,-3.42138544031039,-3.1710255078491,-5.36447086182968,-2.60721063614502,-4.61146662007016,-5.1888969560239,-4.96631781826935,-5.042513799747,-3.45326159192904,-5.00047395511626,-5.5716453364012,-3.91151412641182,-5.17302398452187,-4.25268383900022,-3.49504307417135,-3.30368634871316,-5.08691745277952,-3.93604778852461,-3.80210701308922,-5.86925118950475,-3.59044870773892,-5.58982870788175,-6.17620582729795,-5.92230932477715,-3.17657052624868,-4.72957721200477,-5.3061448093934,-6.21359301138581,-4.3878731402188,-3.97309149809465,-3.49156970408189,-6.39570386291468,-4.53572405181269,-5.46900466076251,-4.04670505955571,-4.65441190468557,-5.19025929052649,-5.5131698344556,-5.45432346483116,-4.988465746092,-4.39609006394524,-4.3930748798359,-5.74240751876262,-5.17337781033488,-5.9643600320958,-5.0462299447908,-6.27713496465026,-5.08690942378117,-5.04962090033499,-5.00204084367562,-5.43281124580467,-4.64280745812956,-4.04971855509108,-6.52820062270469,-5.67050491393248,-5.41111331397525,-5.49587082170047,-6.82215033030076],"mode":"markers","name":"trace 2","type":"scatter","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="best-sellers" class="section level3">
+<h3>Best Sellers</h3>
+<pre class="r"><code>fig &lt;- plot_ly(
+  type=&quot;treemap&quot;,
+  labels=c(&quot;Eve&quot;, &quot;Cain&quot;, &quot;Seth&quot;, &quot;Enos&quot;, &quot;Noam&quot;, &quot;Abel&quot;, &quot;Awan&quot;, &quot;Enoch&quot;, &quot;Azura&quot;),
+  parents=c(&quot;&quot;, &quot;Eve&quot;, &quot;Eve&quot;, &quot;Seth&quot;, &quot;Seth&quot;, &quot;Eve&quot;, &quot;Eve&quot;, &quot;Awan&quot;, &quot;Eve&quot;)
+)
+fig</code></pre>
+<div id="htmlwidget-bf33bff7cb468835cb81" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bf33bff7cb468835cb81">{"x":{"visdat":{"177035dc6a38":["function () ","plotlyVisDat"]},"cur_data":"177035dc6a38","attrs":{"177035dc6a38":{"labels":["Eve","Cain","Seth","Enos","Noam","Abel","Awan","Enoch","Azura"],"parents":["","Eve","Eve","Seth","Seth","Eve","Eve","Awan","Eve"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"treemap"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Eve","Cain","Seth","Enos","Noam","Abel","Awan","Enoch","Azura"],"parents":["","Eve","Eve","Seth","Seth","Eve","Eve","Awan","Eve"],"type":"treemap","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
