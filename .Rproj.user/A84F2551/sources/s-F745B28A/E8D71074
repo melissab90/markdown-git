@@ -3,7 +3,7 @@
     "path": "C:/Users/Melisa/OneDrive/Diplomado Ciencia de Datos/Modulo 6/Codigos/markdown-git/index.Rmd",
     "project_path": "index.Rmd",
     "type": "r_markdown",
-    "hash": "610625832",
+    "hash": "758044351",
     "contents": "",
     "dirty": false,
     "created": 1657581084803.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "13,13",
-        "scrollLine": "4",
+        "cursorPosition": "9,98",
+        "scrollLine": "0",
         "last_setup_crc32": "F745B28A4cb6a171"
     },
     "folds": "",
-    "lastKnownWriteTime": 1657584593,
+    "lastKnownWriteTime": 1657585272,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1657584593966,
+    "last_content_update": 1657585272023,
     "read_only": false,
     "read_only_alternatives": []
 }
